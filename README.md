@@ -10,4 +10,4 @@ Use the following links:
 
 * [Lecture-1 Introduction to Python](http://nbviewer.ipython.org/urls/raw.github.com/PoeticCapybara/Python-Introduction-Zittau/master/Lecture-1-Introduction-to-Python.ipynb)
 * [Lecture-7 Pandas](http://nbviewer.ipython.org/urls/raw.github.com/PoeticCapybara/Python-Introduction-Zittau/master/Lecture-7-Pandas.ipynb)
-* [Lecture-8 Benchmarking](http://nbviewer.ipython.org/urls/raw.github.com/PoeticCapybara/Python-Introduction-Zittau/master/Lecture-8-Benchmarking.ipynb)
+* [Lecture-8 Benchmarks](http://nbviewer.ipython.org/urls/raw.github.com/PoeticCapybara/Python-Introduction-Zittau/master/Lecture-8-Benchmarks.ipynb)
