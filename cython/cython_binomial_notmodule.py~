@@ -1,0 +1,66 @@
+'''
+Call option valuation using the theoretical binomial model.
+Inspired from Wilmott, Paul, "Paul Wilmott Introduces Quantitative Finance", 2nd ed., John Wiley & Sons, 2007
+'''
+from __future__ import division
+from numpy import array, zeros, exp, sqrt, linspace, zeros_like
+ 
+def payoff(S, K):
+    return (S-K) if S > K else 0
+ 
+def binomial_price(asset, volatility, interest_rate, strike, expiry, steps):
+    """
+    """
+    s = zeros((steps+1)) # asset array
+    v = zeros((steps+1)) # option array
+     
+    time_step = (1.0 * expiry) / steps
+    discount_factor = exp(-interest_rate * time_step)
+    temp1 = exp((interest_rate + volatility * volatility) * time_step)
+    temp2 = 0.5 * (discount_factor + temp1)
+    u = temp2 + sqrt(temp2 * temp2 -1) 
+    d = 1/u  
+    p = (exp(interest_rate * time_step) - d ) / (u-d)   
+     
+    s[0] = asset
+    for i in xrange(1, steps+1):       
+        for j in xrange(i, 0, -1):             
+            s[j] = u * s[j-1]
+        s[0] = d * s[0]
+     
+    for j in xrange(steps+1):
+        v[j] = payoff(s[j], strike)   
+     
+    for n in xrange(steps):
+        for j in xrange(steps):
+            v[j] = ((p * v[j+1]) + ((1-p) * v[j])) * discount_factor
+ 
+    return v[0]
+    
+if __name__ == '__main__':
+    import time   
+    from pylab import plot, show, xlabel, title
+ 
+    v_rates = linspace(.01, 0.2, 1000)    
+    option_prices = zeros_like(v_rates)
+    asset = 100
+    strike = 100
+    interest_rate = .05
+    expiry = 4
+    steps = 12
+ 
+    t = time.time()
+    for i, volatility in enumerate(v_rates):
+        option_prices[i] = binomial_price(asset, volatility, interest_rate, strike, expiry, steps)    
+    print 'Execution time:', time.time() - t
+ 
+    plot(v_rates, option_prices)
+    xlabel('Volatility')
+    title('Option Prices')
+    print 'S0 -> %.2f'%asset
+    print 'K -> %.2f'%strike
+    print 'r -> %.2f'%interest_rate
+    print 'T -> %.2f'%expiry
+    print 'number of steps -> %.2f'%steps
+    show()
+    
